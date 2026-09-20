@@ -1,0 +1,12 @@
+node_modules/
+dist/
+playwright-report/
+test-results/
+*.tsbuildinfo
+.env*
+!.env.example
+.DS_Store
+.ui-validation/
+
+# Publish the approved public/resume copy, not the original reference documents.
+/*.pdf
