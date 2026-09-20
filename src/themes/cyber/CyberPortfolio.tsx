@@ -23,10 +23,9 @@ const coreLabels = {
 
 type GalleryItem = { title: string; label: string; description: string; image?: string; kind?: ArtworkKind }
 const gallery: GalleryItem[] = [
-  { title: 'The person behind the pipelines.', label: '01 / PORTRAIT', image: profile.portrait, description: 'Roushan Kumar. Engineer, systems thinker, and the human behind this portfolio. Portrait from the supplied résumé.' },
-  { title: 'A different perspective.', label: '02 / PROFILE ARCHIVE', image: profile.casualPortrait, description: 'A more personal frame, from my supplied LinkedIn profile. The same person, a different perspective.' },
-  { title: 'Connected thinking.', label: '03 / VISUAL EXPLORATION', kind: 'network', description: 'An original conceptual illustration of connected agents, tools, context, and data. A visual exploration, not a screenshot of a client system.' },
-  { title: 'Built in layers.', label: '04 / VISUAL EXPLORATION', kind: 'warehouse', description: 'An original visual study of layered data architecture: structure that supports scale. No client data is represented.' },
+  { title: 'A different perspective.', label: '01 / PROFILE ARCHIVE', image: profile.casualPortrait, description: 'A more personal frame, from my supplied LinkedIn profile. The same person, a different perspective.' },
+  { title: 'Connected thinking.', label: '02 / VISUAL EXPLORATION', kind: 'network', description: 'An original conceptual illustration of connected agents, tools, context, and data. A visual exploration, not a screenshot of a client system.' },
+  { title: 'Built in layers.', label: '03 / VISUAL EXPLORATION', kind: 'warehouse', description: 'An original visual study of layered data architecture: structure that supports scale. No client data is represented.' },
 ]
 
 export default function CyberPortfolio({ onContact, onProject, onRecruiter }: PortfolioPageProps) {
@@ -72,7 +71,7 @@ export default function CyberPortfolio({ onContact, onProject, onRecruiter }: Po
           <a href="#cyber-gallery" onClick={() => setMenuOpen(false)}>Gallery <span>04</span></a>
         </nav>
         <div className="cyber-header-actions">
-          <button className="cyber-talk" onClick={onContact}>Let's talk <ArrowUpRight size={16} /></button>
+          <button className="cyber-talk" onClick={onContact} aria-label="Let's talk"><span>Let's talk</span><ArrowUpRight size={16} /></button>
           <button className="cyber-menu-toggle" aria-label={menuOpen ? 'Close navigation' : 'Open navigation'} aria-expanded={menuOpen} aria-controls="cyber-navigation" onClick={() => setMenuOpen(!menuOpen)}>
             {menuOpen ? <X size={21} /> : <Menu size={21} />}
           </button>
@@ -200,7 +199,7 @@ export default function CyberPortfolio({ onContact, onProject, onRecruiter }: Po
         </section>
 
         <section id="cyber-gallery" className="cyber-gallery cyber-container cyber-section" aria-labelledby="gallery-heading">
-          <Reveal className="cyber-section-heading"><div><p className="cyber-eyebrow"><span>04 /</span> A FEW DIFFERENT FRAMES</p><h2 id="gallery-heading">Beyond <span>the terminal.</span></h2></div><p>The person. The perspectives. The patterns.<br />A small collection of portraits<br />and original visual explorations.</p></Reveal>
+          <Reveal className="cyber-section-heading"><div><p className="cyber-eyebrow"><span>04 /</span> A FEW DIFFERENT FRAMES</p><h2 id="gallery-heading">Beyond <span>the terminal.</span></h2></div><p>A personal perspective.<br />Two original visual explorations.<br />A little more of the world behind the work.</p></Reveal>
           <div className="cyber-gallery-grid">{gallery.map((item, index) => <Reveal key={item.title} className={`gallery-item gallery-item--${index + 1}`} delay={index * 60}><button onClick={() => setGalleryIndex(index)} aria-label={`Open gallery: ${item.title}`}><div className="gallery-image">{item.image ? <img src={item.image} alt={item.title} loading="lazy" width="600" height="600" /> : item.kind && <ProjectArtwork kind={item.kind} />}</div><div className="gallery-item-label"><span>{item.label}</span><ArrowUpRight size={16} /></div></button></Reveal>)}</div>
         </section>
 

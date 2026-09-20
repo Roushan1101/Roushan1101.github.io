@@ -10,6 +10,8 @@ Three complete, original portfolio experiences built from the supplied September
 
 The persistent bottom switcher opens the other websites. Its pause button controls decorative motion; the system's reduced-motion preference is respected by default. Older `/play/` links redirect to the welcome page, preserving query strings and section links. Initial section links scroll into view after the selected portfolio and its fonts finish loading.
 
+Mobile layouts use a shared reading scale: at least 16px for body copy, 14px for controls, and 12px for secondary labels, with generous line spacing and touch targets. The Cyber gallery pairs one personal portrait with two original system illustrations; the formal portrait stays in the separate About section.
+
 ## GitHub Pages addresses
 
 - **Welcome / Roushan's World:** https://roushan1101.github.io/
@@ -54,6 +56,14 @@ npm run preview
 ```
 
 That command uses http://127.0.0.1:4173/; do not run it concurrently with the browser suite.
+
+If port 4173 is already used by another process, leave that process alone and choose a free test port:
+
+```powershell
+$env:PLAYWRIGHT_PORT = '4187'
+npm run test:e2e
+Remove-Item Env:PLAYWRIGHT_PORT
+```
 
 ## Playing Roushan's World
 
@@ -127,6 +137,7 @@ Deploy the contents of `dist` under that directory. Shared asset, resume, and ex
 - [public/assets/roushan-outdoors.webp](public/assets/roushan-outdoors.webp): the owner's portrait extracted from the supplied LinkedIn reference and optimized to 29 KB.
 - [src/themes/cyber](src/themes/cyber), [src/themes/studio](src/themes/studio), and [src/themes/play](src/themes/play): independent page designs.
 - [src/styles/global.css](src/styles/global.css): shared reset, fonts, accessibility, dialogs, and experience switcher.
+- [src/styles/mobile.css](src/styles/mobile.css): the shared mobile typography and touch-layout layer, keeping phone text readable without changing desktop typography.
 - The three portfolio HTML entries contain their own SEO titles, descriptions, theme colors, and JavaScript-free resume/contact fallback. The additional `play/index.html` entry only redirects old links to the welcome page.
 
 Run the checks again after making changes. No edits are made to the original source PDFs in the project root.

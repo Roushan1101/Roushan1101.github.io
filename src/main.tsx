@@ -5,6 +5,7 @@ import '@fontsource-variable/space-grotesk'
 import '@fontsource/space-mono/latin-400.css'
 import App from './App'
 import './styles/global.css'
+import './styles/mobile.css'
 
 const experience = document.documentElement.dataset.experience
 if (experience !== 'cyber' && experience !== 'studio' && experience !== 'play') {

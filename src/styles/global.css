@@ -1,4 +1,4 @@
-@layer reset, shared, themes;
+@layer reset, shared, themes, mobile;
 
 @layer reset {
   :root {

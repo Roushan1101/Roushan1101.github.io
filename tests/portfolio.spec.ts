@@ -47,23 +47,23 @@ for (const view of views) {
   })
 }
 
-test('all three experiences are reachable from the persistent switcher', async ({ page }) => {
+test('all three experiences are reachable from the persistent switcher', async ({ page, baseURL }) => {
   await page.goto('/')
   const nav = page.getByRole('navigation', { name: 'Portfolio styles' })
   await nav.getByRole('link', { name: 'Studio', exact: true }).click()
   await expect(page).toHaveURL(/\/studio\/$/)
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
   await nav.getByRole('link', { name: 'Play', exact: true }).click()
-  await expect(page).toHaveURL('http://127.0.0.1:4173/')
+  await expect(page).toHaveURL(new URL('/', baseURL).href)
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
   await nav.getByRole('link', { name: 'Cyber', exact: true }).click()
-  await expect(page).toHaveURL('http://127.0.0.1:4173/cyber/')
+  await expect(page).toHaveURL(new URL('/cyber/', baseURL).href)
 })
 
-test('legacy play links redirect to the welcome page without losing query or section', async ({ page }) => {
+test('legacy play links redirect to the welcome page without losing query or section', async ({ page, baseURL }) => {
   await delayPortfolioViews(page)
   await page.goto('/play/?from=resume#play-portfolio')
-  await expect(page).toHaveURL('http://127.0.0.1:4173/?from=resume#play-portfolio')
+  await expect(page).toHaveURL(new URL('/?from=resume#play-portfolio', baseURL).href)
   await expect(page.locator('body')).toHaveAttribute('data-theme', 'play')
   await expect(page.getByTestId('play-world')).toHaveAttribute('data-state', 'ready')
   await expectSectionInView(page, 'play-portfolio')
@@ -136,15 +136,17 @@ test('career accordion and recruiter quick view expose sourced details', async (
 
 test('the gallery supports next, previous, keyboard navigation, and escape', async ({ page }) => {
   await page.goto('/cyber/')
-  await page.getByRole('button', { name: 'Open gallery: The person behind the pipelines.', exact: true }).click()
+  await expect(page.locator('.cyber-gallery-grid img')).toHaveCount(1)
+  await expect(page.locator('.cyber-gallery-grid .gallery-item')).toHaveCount(3)
+  await page.getByRole('button', { name: 'Open gallery: A different perspective.', exact: true }).click()
   const dialog = page.getByRole('dialog')
-  await expect(dialog.getByRole('heading', { name: 'The person behind the pipelines.' })).toBeVisible()
+  await expect(dialog.getByRole('heading', { name: 'A different perspective.' })).toBeVisible()
   await dialog.getByRole('button', { name: 'Next gallery image' }).click()
-  await expect(dialog.getByRole('heading', { name: 'A different perspective.' })).toBeVisible()
-  await page.keyboard.press('ArrowRight')
   await expect(dialog.getByRole('heading', { name: 'Connected thinking.' })).toBeVisible()
+  await page.keyboard.press('ArrowRight')
+  await expect(dialog.getByRole('heading', { name: 'Built in layers.' })).toBeVisible()
   await dialog.getByRole('button', { name: 'Previous gallery image' }).click()
-  await expect(dialog.getByRole('heading', { name: 'A different perspective.' })).toBeVisible()
+  await expect(dialog.getByRole('heading', { name: 'Connected thinking.' })).toBeVisible()
   await page.keyboard.press('Escape')
   await expect(dialog).toHaveCount(0)
 })
