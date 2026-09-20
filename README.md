@@ -8,7 +8,7 @@ Three complete, original portfolio experiences built from the supplied September
 | **Cyber** | http://127.0.0.1:5173/cyber/ | Dark data universe, interactive 3D canvas illustration, filterable case studies, career timeline, and portrait/art gallery. |
 | **Studio** | http://127.0.0.1:5173/studio/ | An editorial CV with a large portrait, circular navigation, thoughtful hover effects, and scroll reveals. |
 
-The persistent bottom switcher opens the other websites. Its pause button controls decorative motion; the system's reduced-motion preference is respected by default. Older `/play/` links redirect to the welcome page, preserving query strings and section links.
+The persistent bottom switcher opens the other websites. Its pause button controls decorative motion; the system's reduced-motion preference is respected by default. Older `/play/` links redirect to the welcome page, preserving query strings and section links. Initial section links scroll into view after the selected portfolio and its fonts finish loading.
 
 ## GitHub Pages addresses
 

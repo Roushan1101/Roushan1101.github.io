@@ -1,4 +1,18 @@
-import { expect, test } from '@playwright/test'
+import { expect, test, type Page } from '@playwright/test'
+
+async function delayPortfolioViews(page: Page) {
+  await page.route('**/assets/*Portfolio-*.js', async (route) => {
+    await new Promise((resolve) => setTimeout(resolve, 250))
+    await route.continue()
+  })
+}
+
+async function expectSectionInView(page: Page, id: string) {
+  await expect.poll(() => page.locator(`#${id}`).evaluate((element) => {
+    const top = element.getBoundingClientRect().top
+    return top >= -1 && top < window.innerHeight
+  })).toBe(true)
+}
 
 const views = [
   { name: 'Cyber', path: '/cyber/', title: /Roushan Kumar.*Data & AI Engineer/, theme: 'cyber' },
@@ -47,10 +61,21 @@ test('all three experiences are reachable from the persistent switcher', async (
 })
 
 test('legacy play links redirect to the welcome page without losing query or section', async ({ page }) => {
+  await delayPortfolioViews(page)
   await page.goto('/play/?from=resume#play-portfolio')
   await expect(page).toHaveURL('http://127.0.0.1:4173/?from=resume#play-portfolio')
   await expect(page.locator('body')).toHaveAttribute('data-theme', 'play')
   await expect(page.getByTestId('play-world')).toHaveAttribute('data-state', 'ready')
+  await expectSectionInView(page, 'play-portfolio')
+})
+
+test('initial section links scroll after every lazy-loaded portfolio renders', async ({ page }) => {
+  await delayPortfolioViews(page)
+  for (const [path, id] of [['/', 'play-portfolio'], ['/cyber/', 'cyber-work'], ['/studio/', 'studio-work']]) {
+    await page.goto(`${path}#${id}`)
+    await expect(page.getByRole('main')).toBeVisible()
+    await expectSectionInView(page, id)
+  }
 })
 
 test('the actual two-page résumé downloads as a PDF', async ({ page, request }) => {
